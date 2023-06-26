@@ -60,6 +60,7 @@
 		00B254B02A45937A00F89CF3 /* PokemonList */ = {
 			isa = PBXGroup;
 			children = (
+				00B254D12A49C60600F89CF3 /* Data */,
 				00B254CA2A459BEB00F89CF3 /* Models */,
 				00B254C52A459B7E00F89CF3 /* Controllers */,
 				00B254B12A45937A00F89CF3 /* AppDelegate.swift */,
@@ -119,6 +120,21 @@
 				00B254CB2A459C3300F89CF3 /* ApiGenericResponse.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		00B254D12A49C60600F89CF3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				00B254D22A49C61100F89CF3 /* Providers */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		00B254D22A49C61100F89CF3 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Providers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
