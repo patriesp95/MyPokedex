@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		002636332A4ACB7500C4CF7B /* MainLogicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002636322A4ACB7500C4CF7B /* MainLogicProvider.swift */; };
+		002636352A4ACB8900C4CF7B /* DetailLogicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002636342A4ACB8900C4CF7B /* DetailLogicProvider.swift */; };
+		0026363B2A4ACBC800C4CF7B /* CustomPokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0026363A2A4ACBC800C4CF7B /* CustomPokemonCell.swift */; };
 		00B254B22A45937A00F89CF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B254B12A45937A00F89CF3 /* AppDelegate.swift */; };
 		00B254B42A45937A00F89CF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B254B32A45937A00F89CF3 /* SceneDelegate.swift */; };
 		00B254B62A45937A00F89CF3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B254B52A45937A00F89CF3 /* MainViewController.swift */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		002636322A4ACB7500C4CF7B /* MainLogicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLogicProvider.swift; sourceTree = "<group>"; };
+		002636342A4ACB8900C4CF7B /* DetailLogicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLogicProvider.swift; sourceTree = "<group>"; };
+		0026363A2A4ACBC800C4CF7B /* CustomPokemonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPokemonCell.swift; sourceTree = "<group>"; };
 		00B254AE2A45937A00F89CF3 /* PokemonList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B254B12A45937A00F89CF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00B254B32A45937A00F89CF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +49,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		002636362A4ACB8D00C4CF7B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				002636322A4ACB7500C4CF7B /* MainLogicProvider.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		002636372A4ACB9600C4CF7B /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				002636342A4ACB8900C4CF7B /* DetailLogicProvider.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		002636382A4ACBAA00C4CF7B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				002636392A4ACBB900C4CF7B /* Main */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		002636392A4ACBB900C4CF7B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				0026363A2A4ACBC800C4CF7B /* CustomPokemonCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		00B254A52A45937A00F89CF3 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +100,7 @@
 		00B254B02A45937A00F89CF3 /* PokemonList */ = {
 			isa = PBXGroup;
 			children = (
+				002636382A4ACBAA00C4CF7B /* Components */,
 				00B254D32A49DA8600F89CF3 /* Managers */,
 				00B254D12A49C60600F89CF3 /* Data */,
 				00B254CA2A459BEB00F89CF3 /* Models */,
@@ -136,6 +175,8 @@
 		00B254D22A49C61100F89CF3 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				002636372A4ACB9600C4CF7B /* Detail */,
+				002636362A4ACB8D00C4CF7B /* Main */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -218,12 +259,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				002636332A4ACB7500C4CF7B /* MainLogicProvider.swift in Sources */,
 				00B254B62A45937A00F89CF3 /* MainViewController.swift in Sources */,
 				00B254CC2A459C3300F89CF3 /* ApiGenericResponse.swift in Sources */,
 				00B254B22A45937A00F89CF3 /* AppDelegate.swift in Sources */,
 				00B254D52A49DAE200F89CF3 /* NetworkManager.swift in Sources */,
 				00B254B42A45937A00F89CF3 /* SceneDelegate.swift in Sources */,
+				002636352A4ACB8900C4CF7B /* DetailLogicProvider.swift in Sources */,
 				00B254C92A459BC700F89CF3 /* DetailViewController.swift in Sources */,
+				0026363B2A4ACBC800C4CF7B /* CustomPokemonCell.swift in Sources */,
 				00B254CE2A459C4600F89CF3 /* ApiPokemonResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
