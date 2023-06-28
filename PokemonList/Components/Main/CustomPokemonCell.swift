@@ -29,6 +29,10 @@ class CustomPokemonCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(with label: String){
+        self.pokemonLabel.text = label
+    }
 
     private func setupUI(){
         self.contentView.addSubview(pokemonLabel)
