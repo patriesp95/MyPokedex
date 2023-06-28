@@ -8,9 +8,9 @@
 import Foundation
 
 
-struct ApiGenericResponse: Decodable {
+struct ApiPokemonResponse: Decodable {
     var count: Int
     var next: String
     var previous: String?
-    var results: [ApiPokemonResponse]
+    var results: [Pokemon]
 }

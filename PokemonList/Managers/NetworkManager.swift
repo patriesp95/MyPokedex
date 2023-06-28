@@ -12,7 +12,7 @@ class NetworkManager {
     let baseURL = "https://pokeapi.co/api/v2/pokemon"
     private init() {}
     
-    func getPokemons(completed: @escaping (ApiGenericResponse?, String?) -> Void){
+    func getPokemons(completed: @escaping (ApiPokemonResponse?, String?) -> Void){
         let endpoint = baseURL
         
         guard let url = URL(string: endpoint) else {
@@ -39,7 +39,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let pokemons = try decoder.decode(ApiGenericResponse.self, from: data)
+                let pokemons = try decoder.decode(ApiPokemonResponse.self, from: data)
                 completed(pokemons,nil)
                 
             } catch {

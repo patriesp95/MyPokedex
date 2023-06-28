@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ApiPokemonResponse: Codable {
+struct Pokemon: Codable {
     var name: String
     var url: String
 }

@@ -8,9 +8,9 @@
 import Foundation
 
 class MainLogicProvider {
-    var pokemons: [ApiPokemonResponse] = []
+    var pokemons: [Pokemon] = []
     
-    init(pokemons: [ApiPokemonResponse]){
+    init(pokemons: [Pokemon]){
         self.pokemons = pokemons
     }
     
