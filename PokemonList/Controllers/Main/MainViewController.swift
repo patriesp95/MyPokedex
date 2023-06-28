@@ -8,38 +8,41 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    
-    var pokemons = [ApiPokemonResponse]()
-    
+        
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.allowsSelection = true
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CustomPokemonCell.identifier)
+        tableView.register(CustomPokemonCell.self, forCellReuseIdentifier: CustomPokemonCell.identifier)
         return tableView
     }()
+    
+    init?(mainLogicProvider: MainLogicProvider) {
+        self.mainLogicProvider = mainLogicProvider
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    var mainLogicProvider: MainLogicProvider
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            
-            NetworkManager.shared.getPokemons { pokemons, errorMessage in
-                guard let pokemons = pokemons?.results else {
-                    print("an error ocurred. Couldnt retrieve pokemons properly")
-                    return
-                }
-                
-                self.pokemons.append(contentsOf: pokemons)
-                
-            }
-        
-        }
-           
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
         setupUI()
+        
+        mainLogicProvider.fetchPokemons()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 
     private func setupUI(){
@@ -60,13 +63,15 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pokemons.count
+        mainLogicProvider.pokemons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: CustomPokemonCell.identifier, for: indexPath)
-        
-        cell.textLabel?.text = pokemons[indexPath.row].name
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: CustomPokemonCell.identifier, for: indexPath) as? CustomPokemonCell else {
+            fatalError("Could not dequeue CustomPokemonCell. Try Again")
+        }
+                
+        cell.configure(with: mainLogicProvider.pokemons[indexPath.row].name)
                         
         return cell
     }
