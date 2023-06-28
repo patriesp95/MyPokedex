@@ -18,9 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        let mainLogicProvider: MainLogicProvider = MainLogicProvider(pokemons: [])
+        let mainViewController = MainViewController(mainLogicProvider: mainLogicProvider)
+        
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
-        window?.rootViewController = MainViewController()
+        window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
         
     }
