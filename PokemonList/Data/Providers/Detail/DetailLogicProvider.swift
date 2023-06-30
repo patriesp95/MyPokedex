@@ -7,20 +7,12 @@
 
 import Foundation
 
+
 class DetailLogicProvider {
-    var pokemonName: String
-    
-    init(pokemonName: String) {
-        self.pokemonName = pokemonName
+    var pokemon: PokemonCharacteristics
+        
+    init(pokemon: PokemonCharacteristics) {
+        self.pokemon = pokemon
     }
 
-    func fetchPokemon(name: String){
-        NetworkManager.shared.getPokemonByName(name: name) { pokemon, errorMessage in
-            guard let pokemon = pokemon else {
-                print("an error ocurred. Couldnt retrieve pokemon properly")
-                return
-            }
-            print(pokemon)
-        }
-    }
 }

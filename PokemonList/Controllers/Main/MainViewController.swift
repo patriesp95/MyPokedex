@@ -78,11 +78,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print(mainLogicProvider.pokemons[indexPath.row].name)
         
+        getPokemonByName(name: mainLogicProvider.pokemons[indexPath.row].name)
+        
+        guard let pokemon = self.mainLogicProvider.pokemon else { return }
+                
         guard let detailViewController = DetailViewController(
-            detailLogicProvider: DetailLogicProvider(pokemonName: mainLogicProvider.pokemons[indexPath.row].name))
+            detailLogicProvider: DetailLogicProvider(pokemon: pokemon))
         else { return }
+        
+        
         
         let navController = UINavigationController(rootViewController: detailViewController)
         navController.modalPresentationStyle = .fullScreen
@@ -90,7 +95,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         present(navController, animated: true)
         
-        //self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func getPokemonByName(name: String){
+        self.mainLogicProvider.fetchPokemon(name: name)
     }
   
 }

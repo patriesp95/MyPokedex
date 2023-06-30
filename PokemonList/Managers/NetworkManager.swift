@@ -10,6 +10,7 @@ import Foundation
 class NetworkManager {
     static let shared = NetworkManager()
     let baseURL = "https://pokeapi.co/api/v2/pokemon"
+    var pokemon: PokemonCharacteristics?
     private init() {}
     
     func getPokemons(completed: @escaping (ApiPokemonResponse?, String?) -> Void){
@@ -50,18 +51,17 @@ class NetworkManager {
         task.resume()
     }
     
-    func getPokemonByName(name: String, completed: @escaping (PokemonDTO?,String?) -> Void){
+    func getPokemonByName(name: String, completed: @escaping (PokemonCharacteristics?,String?) -> Void){
         let endpoint = "\(baseURL)/\(name)"
         
         guard let url = URL(string: endpoint) else {
             completed(nil, "Invalid request. Please try again.")
-            return
+            return 
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completed(nil, "Unable to complete your request. Please check your internet connection.")
-                return
             }
             
             guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
@@ -77,7 +77,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let pokemon = try decoder.decode(PokemonDTO.self, from: data)
-                completed(pokemon,nil)
+                completed(PokemonCharacteristics(from: pokemon),nil)
             } catch {
                 print("Error decoding Pokemon: \(error)")
                 return

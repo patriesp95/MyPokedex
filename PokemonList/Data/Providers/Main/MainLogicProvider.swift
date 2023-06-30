@@ -9,6 +9,7 @@ import Foundation
 
 class MainLogicProvider {
     var pokemons: [Pokemon] = []
+    var pokemon: PokemonCharacteristics?
     
     init(pokemons: [Pokemon]){
         self.pokemons = pokemons
@@ -23,6 +24,16 @@ class MainLogicProvider {
             
             self.pokemons.append(contentsOf: pokemons)
             
+        }
+    }
+    
+    func fetchPokemon(name: String){
+        NetworkManager.shared.getPokemonByName(name: name) { pokemon, errorMessage in
+            guard let pokemon = pokemon else {
+                print("an error ocurred. Couldnt retrieve pokemon properly")
+                return
+            }
+            self.pokemon = pokemon
         }
     }
 }
