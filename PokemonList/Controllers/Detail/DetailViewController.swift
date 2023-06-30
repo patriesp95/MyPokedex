@@ -20,6 +20,12 @@ class DetailViewController: UIViewController {
         return myLabel
     }()
     
+    private let pokemonImageView: UIImageView = {
+        let myImageView = UIImageView()
+        myImageView.contentMode = .scaleAspectFit
+        myImageView.image = UIImage(systemName: "questionmark")
+        return myImageView
+    }()
     
     init?(detailLogicProvider: DetailLogicProvider) {
         self.detailLogicProvider = detailLogicProvider
@@ -34,17 +40,24 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .systemBlue
         setupUI()
     }
     
     private func setupUI(){
         view.addSubview(pokemonCharacteristicsLabel)
+        view.addSubview(pokemonImageView)
+        
         pokemonCharacteristicsLabel.translatesAutoresizingMaskIntoConstraints = false
+        pokemonImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
         
-            pokemonCharacteristicsLabel.topAnchor.constraint(equalTo: view.topAnchor),
+            pokemonImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            pokemonImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pokemonImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pokemonImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pokemonCharacteristicsLabel.topAnchor.constraint(equalTo: self.pokemonImageView.bottomAnchor, constant: -300),
             pokemonCharacteristicsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             pokemonCharacteristicsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pokemonCharacteristicsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -52,8 +65,31 @@ class DetailViewController: UIViewController {
         ])
         
         pokemonCharacteristicsLabel.text = self.detailLogicProvider.pokemon.name
+        guard let pokeURL = self.detailLogicProvider.pokemon.sprites?.front_default else { return }
+        pokemonImageView.downloaded(from: pokeURL)
         
     }
 
 
+}
+
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() { [weak self] in
+                self?.image = image
+            }
+        }.resume()
+    }
+    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFit) {
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
+    }
 }
