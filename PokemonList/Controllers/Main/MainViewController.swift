@@ -75,6 +75,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print(mainLogicProvider.pokemons[indexPath.row].name)
+        
+        guard let detailViewController = DetailViewController(
+            detailLogicProvider: DetailLogicProvider(pokemonName: mainLogicProvider.pokemons[indexPath.row].name))
+        else { return }
+        
+        let navController = UINavigationController(rootViewController: detailViewController)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done)
+        
+        present(navController, animated: true)
+        
+        //self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
   
 }
 

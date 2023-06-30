@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let mainLogicProvider: MainLogicProvider = MainLogicProvider(pokemons: [])
-        let mainViewController = MainViewController(mainLogicProvider: mainLogicProvider)
+        guard let mainViewController = MainViewController(mainLogicProvider: mainLogicProvider) else { return }
         
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
