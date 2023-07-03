@@ -11,12 +11,21 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    private let pokemonCharacteristicsLabel: UILabel = {
+    private let pokemonAbilityLabel: UILabel = {
         let myLabel = UILabel()
         myLabel.textColor = .label
         myLabel.textAlignment = .center
-        myLabel.font = .systemFont(ofSize: 24, weight: .regular)
-        myLabel.text = "No Pokemon"
+        myLabel.font = .systemFont(ofSize: 18, weight: .regular)
+        myLabel.text = "No Ability"
+        return myLabel
+    }()
+    
+    private let pokemonTypeLabel: UILabel = {
+        let myLabel = UILabel()
+        myLabel.textColor = .label
+        myLabel.textAlignment = .center
+        myLabel.font = .systemFont(ofSize: 18, weight: .regular)
+        myLabel.text = "No Type"
         return myLabel
     }()
     
@@ -44,27 +53,52 @@ class DetailViewController: UIViewController {
         setupUI()
     }
     
-    private func setupUI(){
-        view.addSubview(pokemonCharacteristicsLabel)
+    func configureLogoImageView(){
         view.addSubview(pokemonImageView)
-        
-        pokemonCharacteristicsLabel.translatesAutoresizingMaskIntoConstraints = false
         pokemonImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+            
         NSLayoutConstraint.activate([
-        
-            pokemonImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            pokemonImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pokemonImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pokemonImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pokemonCharacteristicsLabel.topAnchor.constraint(equalTo: self.pokemonImageView.bottomAnchor, constant: -300),
-            pokemonCharacteristicsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pokemonCharacteristicsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pokemonCharacteristicsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        
+            pokemonImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            pokemonImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 200),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    
+    func configurePokemonTypeLabel(){
+        view.addSubview(pokemonTypeLabel)
+        pokemonTypeLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        NSLayoutConstraint.activate([
+            pokemonTypeLabel.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 48),
+            pokemonTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            pokemonTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            pokemonTypeLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
+    }
+    
+    func configurePokemonAbilityLabel(){
+        view.addSubview(pokemonAbilityLabel)
+        pokemonAbilityLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+        NSLayoutConstraint.activate([
+            pokemonAbilityLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -300),
+            pokemonAbilityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            pokemonAbilityLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            pokemonAbilityLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
+    }
+    
+     
+    
+    private func setupUI(){
         
-        pokemonCharacteristicsLabel.text = self.detailLogicProvider.pokemon.name
+        configureLogoImageView()
+        configurePokemonTypeLabel()
+        configurePokemonAbilityLabel()
+        
+        pokemonTypeLabel.text = "Type: \(self.detailLogicProvider.pokemon.types?.first?.type.name ?? "No Type")"
+        pokemonAbilityLabel.text = "Main ability: \(self.detailLogicProvider.pokemon.abilities?.first?.ability.name ?? "No Ability")"
         guard let pokeURL = self.detailLogicProvider.pokemon.sprites?.front_default else { return }
         pokemonImageView.downloaded(from: pokeURL)
         
