@@ -8,27 +8,29 @@
 import Foundation
 
 class MainLogicProvider {
-    var pokemons: [Pokemon] = []
+    var pokemons: [Pokemon]?
     var pokemon: PokemonCharacteristics?
+    let networkManager: NetworkManager
     
-    init(pokemons: [Pokemon]){
-        self.pokemons = pokemons
+    init(networkManager: NetworkManager){
+        self.networkManager = networkManager
     }
     
     func fetchPokemons(){
-        NetworkManager.shared.getPokemons { pokemons, errorMessage in
+        networkManager.getPokemons { pokemons, errorMessage in
+            
             guard let pokemons = pokemons?.results else {
                 print("an error ocurred. Couldnt retrieve pokemons properly")
                 return
             }
             
-            self.pokemons.append(contentsOf: pokemons)
+            self.pokemons = pokemons
             
         }
     }
     
     func fetchPokemon(name: String){
-        NetworkManager.shared.getPokemonByName(name: name) { pokemon, errorMessage in
+        networkManager.getPokemonByName(name: name) { pokemon, errorMessage in
             guard let pokemon = pokemon else {
                 print("an error ocurred. Couldnt retrieve pokemon properly")
                 return

@@ -69,26 +69,30 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.mainLogicProvider.pokemons.count
+        self.mainLogicProvider.pokemons?.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: CustomPokemonCell.identifier, for: indexPath) as? CustomPokemonCell else {
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: CustomPokemonCell.identifier, for: indexPath) as? CustomPokemonCell,
+              let pokemonName = self.mainLogicProvider.pokemons?[indexPath.row].name else {
             fatalError("Could not dequeue CustomPokemonCell. Try Again")
         }
+        
                 
-        cell.configure(with: self.mainLogicProvider.pokemons[indexPath.row].name)
+        cell.configure(with: pokemonName)
                         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        guard let pokemonName = self.mainLogicProvider.pokemons?[indexPath.row].name else { return }
+                
         
-        getPokemonByName(name: self.mainLogicProvider.pokemons[indexPath.row].name)
+        getPokemonByName(name: pokemonName)
         
         guard let pokemon = self.mainLogicProvider.pokemon else { return }
-                
+                        
         guard let detailViewController = DetailViewController(
             detailLogicProvider: DetailLogicProvider(pokemon: pokemon))
         else { return }
