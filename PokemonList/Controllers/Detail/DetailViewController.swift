@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
         let myLabel = UILabel()
         myLabel.textColor = .label
         myLabel.textAlignment = .center
-        myLabel.font = .systemFont(ofSize: 18, weight: .regular)
+        myLabel.font = .systemFont(ofSize: 22, weight: .regular)
         myLabel.text = "No Ability"
         return myLabel
     }()
@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
         let myLabel = UILabel()
         myLabel.textColor = .label
         myLabel.textAlignment = .center
-        myLabel.font = .systemFont(ofSize: 18, weight: .regular)
+        myLabel.font = .systemFont(ofSize: 22, weight: .regular)
         myLabel.text = "No Type"
         return myLabel
     }()

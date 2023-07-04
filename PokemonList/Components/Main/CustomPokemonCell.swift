@@ -16,7 +16,7 @@ class CustomPokemonCell: UITableViewCell {
         let myLabel = UILabel()
         myLabel.textColor = .label
         myLabel.textAlignment = .left
-        myLabel.font = .systemFont(ofSize: 24, weight: .regular)
+        myLabel.font = .systemFont(ofSize: 30, weight: .regular)
         myLabel.text = "Error"
         return myLabel
     }()
