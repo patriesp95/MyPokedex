@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PLError: String {
+enum PLError: String, Error {
     case invalidRequest = "Invalid request. Please try again."
     case unableToComplete = "Unable to complete your request. Please check your internet connection."
     case invalidResponse = "Invalid response from the server. Please try again."

@@ -278,7 +278,7 @@
 			children = (
 				002636382A4ACBAA00C4CF7B /* Components */,
 				00B254D32A49DA8600F89CF3 /* Managers */,
-				00B254D12A49C60600F89CF3 /* Data */,
+				00B254D12A49C60600F89CF3 /* Domain */,
 				00B254CA2A459BEB00F89CF3 /* Models */,
 				00B254C52A459B7E00F89CF3 /* Controllers */,
 				00B254B12A45937A00F89CF3 /* AppDelegate.swift */,
@@ -342,12 +342,12 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		00B254D12A49C60600F89CF3 /* Data */ = {
+		00B254D12A49C60600F89CF3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				00B254D22A49C61100F89CF3 /* Providers */,
 			);
-			path = Data;
+			path = Domain;
 			sourceTree = "<group>";
 		};
 		00B254D22A49C61100F89CF3 /* Providers */ = {

@@ -13,27 +13,27 @@ class NetworkManager {
     var pokemon: PokemonCharacteristics?
     private init() {}
     
-    func getPokemons(completed: @escaping (ApiPokemonResponse?, PLError?) -> Void){
+    func getPokemons(completed: @escaping (Result<ApiPokemonResponse?, PLError>) -> Void){
         let endpoint = baseURL
         
         guard let url = URL(string: endpoint) else {
-            completed(nil, .invalidRequest)
+            completed(.failure(.invalidRequest))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completed(nil, .unableToComplete)
+                completed(.failure(.unableToComplete))
                 return
             }
             
             guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(nil, .invalidResponse)
+                completed(.failure(.invalidResponse))
                 return
             }
                         
             guard let data = data else {
-                completed(nil, .invalidData)
+                completed(.failure(.invalidData))
                 return 
             }
             
@@ -41,45 +41,46 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let pokemons = try decoder.decode(ApiPokemonResponse.self, from: data)
-                completed(pokemons,nil)
+                completed(.success(pokemons))
                 
             } catch {
-                completed(nil, .invalidData)
+                completed(.failure(.invalidData))
             }
         }
         
         task.resume()
     }
     
-    func getPokemonByName(name: String, completed: @escaping (PokemonCharacteristics?,PLError?) -> Void){
+    func getPokemonByName(name: String, completed: @escaping (Result<PokemonCharacteristics?,PLError>) -> Void){
         let endpoint = "\(baseURL)/\(name)"
         
         guard let url = URL(string: endpoint) else {
-            completed(nil, .invalidRequest)
+            completed(.failure(.invalidRequest))
             return 
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completed(nil, .unableToComplete)
+                completed(.failure(.unableToComplete))
             }
             
             guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(nil, .invalidResponse)
+                completed(.failure(.invalidResponse))
                 return
             }
                         
             guard let data = data else {
-                completed(nil, .invalidData)
+                completed(.failure(.invalidData))
                 return
             }
             
             do {
                 let decoder = JSONDecoder()
                 let pokemon = try decoder.decode(PokemonDTO.self, from: data)
-                completed(PokemonCharacteristics(from: pokemon),nil)
+                completed(.success(PokemonCharacteristics(from: pokemon)))
             } catch {
-                completed(nil, .invalidData)
+                completed(.failure(.invalidData))
+
             }
         }
         
