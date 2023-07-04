@@ -49,7 +49,7 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = .systemBackground
         setupUI()
     }
     
@@ -89,6 +89,23 @@ class DetailViewController: UIViewController {
         ])
     }
     
+    func configureBackButton(){
+        if self.navigationController?.viewControllers.first === self {
+            self.navigationItem.leftBarButtonItem?.action = #selector(dismissAction)
+        } else {
+            self.navigationItem.leftBarButtonItem?.action = #selector(popAction)
+        }
+        
+    }
+    
+    @objc func popAction(sender: UIBarButtonItem) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc func dismissAction() {
+        dismiss(animated: true, completion: nil)
+    }
+    
      
     
     private func setupUI(){
@@ -96,6 +113,7 @@ class DetailViewController: UIViewController {
         configureLogoImageView()
         configurePokemonTypeLabel()
         configurePokemonAbilityLabel()
+        configureBackButton()
         
         pokemonTypeLabel.text = "Type: \(self.detailLogicProvider.pokemon.types?.first?.type.name ?? "No Type")"
         pokemonAbilityLabel.text = "Main ability: \(self.detailLogicProvider.pokemon.abilities?.first?.ability.name ?? "No Ability")"

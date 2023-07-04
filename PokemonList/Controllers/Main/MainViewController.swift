@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
-        
+class MainViewController: UIViewController, MainLogicProviderDelegateProtocol {
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
@@ -20,6 +20,7 @@ class MainViewController: UIViewController {
     init?(mainLogicProvider: MainLogicProvider) {
         self.mainLogicProvider = mainLogicProvider
         super.init(nibName: nil, bundle: nil)
+        self.mainLogicProvider.mainDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -39,6 +40,11 @@ class MainViewController: UIViewController {
         setupUI()
         getPokemons()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 
     func configurePokemonTableView(){
         view.addSubview(tableView)
@@ -54,16 +60,18 @@ class MainViewController: UIViewController {
     
 
     private func setupUI(){
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .systemBackground
         configurePokemonTableView()
     }
     
     func getPokemons(){
         self.mainLogicProvider.fetchPokemons()
+    }
+    
+    func requestIsFinished() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        print("pokemonList: \(self.mainLogicProvider.pokemons)")
     }
 }
 
@@ -91,14 +99,20 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         getPokemonByName(name: pokemonName)
         
-        guard let pokemon = self.mainLogicProvider.pokemon else { return }
-                        
-        guard let detailViewController = DetailViewController(
-            detailLogicProvider: DetailLogicProvider(pokemon: pokemon))
-        else { return }
         
-        navigationController?.pushViewController(detailViewController, animated: true)
         
+    }
+    
+    func pokemonIsReady() {
+        
+        DispatchQueue.main.async {
+            guard let pokemon = self.mainLogicProvider.pokemon else { return }
+            guard let detailViewController = DetailViewController(
+                detailLogicProvider: DetailLogicProvider(pokemon: pokemon))
+            else { return }
+            
+            self.navigationController?.pushViewController(detailViewController, animated: true)
+        }
     }
     
     func getPokemonByName(name: String){

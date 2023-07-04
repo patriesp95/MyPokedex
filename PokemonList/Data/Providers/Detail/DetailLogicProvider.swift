@@ -7,6 +7,9 @@
 
 import Foundation
 
+protocol DetailLogicProviderDelegateProtocol : AnyObject {
+    func pokemonIsReady()
+}
 
 class DetailLogicProvider {
     var pokemon: PokemonCharacteristics
