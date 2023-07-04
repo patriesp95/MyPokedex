@@ -13,27 +13,27 @@ class NetworkManager {
     var pokemon: PokemonCharacteristics?
     private init() {}
     
-    func getPokemons(completed: @escaping (ApiPokemonResponse?, String?) -> Void){
+    func getPokemons(completed: @escaping (ApiPokemonResponse?, PLError?) -> Void){
         let endpoint = baseURL
         
         guard let url = URL(string: endpoint) else {
-            completed(nil, "Invalid request. Please try again.")
+            completed(nil, .invalidRequest)
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completed(nil, "Unable to complete your request. Please check your internet connection.")
+                completed(nil, .unableToComplete)
                 return
             }
             
             guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(nil, "Invalid response from the server. Please try again.")
+                completed(nil, .invalidResponse)
                 return
             }
                         
             guard let data = data else {
-                completed(nil, "The data received from the server was invalidad. Please try again.")
+                completed(nil, .invalidData)
                 return 
             }
             
@@ -44,33 +44,33 @@ class NetworkManager {
                 completed(pokemons,nil)
                 
             } catch {
-                completed(nil, "The data received from the server was invalidad. Please try again.")
+                completed(nil, .invalidData)
             }
         }
         
         task.resume()
     }
     
-    func getPokemonByName(name: String, completed: @escaping (PokemonCharacteristics?,String?) -> Void){
+    func getPokemonByName(name: String, completed: @escaping (PokemonCharacteristics?,PLError?) -> Void){
         let endpoint = "\(baseURL)/\(name)"
         
         guard let url = URL(string: endpoint) else {
-            completed(nil, "Invalid request. Please try again.")
+            completed(nil, .invalidRequest)
             return 
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completed(nil, "Unable to complete your request. Please check your internet connection.")
+                completed(nil, .unableToComplete)
             }
             
             guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(nil, "Invalid response from the server. Please try again.")
+                completed(nil, .invalidResponse)
                 return
             }
                         
             guard let data = data else {
-                completed(nil, "The data received from the server was invalidad. Please try again.")
+                completed(nil, .invalidData)
                 return
             }
             
@@ -79,8 +79,7 @@ class NetworkManager {
                 let pokemon = try decoder.decode(PokemonDTO.self, from: data)
                 completed(PokemonCharacteristics(from: pokemon),nil)
             } catch {
-                print("Error decoding Pokemon: \(error)")
-                return
+                completed(nil, .invalidData)
             }
         }
         
