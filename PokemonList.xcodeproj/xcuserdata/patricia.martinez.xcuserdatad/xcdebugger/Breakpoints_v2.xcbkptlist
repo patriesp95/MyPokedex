@@ -3,4 +3,54 @@
    uuid = "B137F82D-FCFE-4292-B465-9BD30D2545FF"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6F101F8-5BCE-4C8A-B14B-2364D82D220C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PokemonList/Managers/NetworkManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "getPokemons(completed:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F6F101F8-5BCE-4C8A-B14B-2364D82D220C - 21f38bb8bf46ba1e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PokemonList.NetworkManager.getPokemons(completed: (Swift.Optional&lt;PokemonList.ApiPokemonResponse&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "PokemonList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patricia.martinez/Documents/training/projects/pokeapi/PokemonList/PokemonList/Managers/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "F6F101F8-5BCE-4C8A-B14B-2364D82D220C - 5d8aaee7aceda96b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in PokemonList.NetworkManager.getPokemons(completed: (Swift.Optional&lt;PokemonList.ApiPokemonResponse&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "PokemonList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/patricia.martinez/Documents/training/projects/pokeapi/PokemonList/PokemonList/Managers/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "224">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

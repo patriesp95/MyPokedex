@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainLogicProvider: MainLogicProvider = MainLogicProvider(pokemons: [])
         guard let mainViewController = MainViewController(mainLogicProvider: mainLogicProvider) else { return }
         
-        window = UIWindow(windowScene: windowScene)
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = mainViewController
+        window?.rootViewController = UINavigationController(rootViewController: mainViewController)
         window?.makeKeyAndVisible()
         
     }

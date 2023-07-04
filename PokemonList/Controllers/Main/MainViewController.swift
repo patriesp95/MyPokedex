@@ -37,15 +37,9 @@ class MainViewController: UIViewController {
         self.tableView.dataSource = self
         
         setupUI()
-        
-        mainLogicProvider.fetchPokemons()
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        getPokemons()
     }
-    
-    
+
     func configurePokemonTableView(){
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,11 +57,19 @@ class MainViewController: UIViewController {
         view.backgroundColor = .systemPink
         configurePokemonTableView()
     }
+    
+    func getPokemons(){
+        self.mainLogicProvider.fetchPokemons()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        print("pokemonList: \(self.mainLogicProvider.pokemons)")
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        mainLogicProvider.pokemons.count
+        self.mainLogicProvider.pokemons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,7 +77,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("Could not dequeue CustomPokemonCell. Try Again")
         }
                 
-        cell.configure(with: mainLogicProvider.pokemons[indexPath.row].name)
+        cell.configure(with: self.mainLogicProvider.pokemons[indexPath.row].name)
                         
         return cell
     }
@@ -83,7 +85,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        getPokemonByName(name: mainLogicProvider.pokemons[indexPath.row].name)
+        getPokemonByName(name: self.mainLogicProvider.pokemons[indexPath.row].name)
         
         guard let pokemon = self.mainLogicProvider.pokemon else { return }
                 
@@ -91,13 +93,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             detailLogicProvider: DetailLogicProvider(pokemon: pokemon))
         else { return }
         
-        
-        
-        let navController = UINavigationController(rootViewController: detailViewController)
-        navController.modalPresentationStyle = .fullScreen
-        navController.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done)
-        
-        present(navController, animated: true)
+        navigationController?.pushViewController(detailViewController, animated: true)
         
     }
     
