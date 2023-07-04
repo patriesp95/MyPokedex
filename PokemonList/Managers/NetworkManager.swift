@@ -11,48 +11,79 @@ class NetworkManager {
     static let shared = NetworkManager()
     let baseURL = "https://pokeapi.co/api/v2/pokemon"
     var pokemon: PokemonCharacteristics?
-    let decoder = JSONDecoder()
-    
     private init() {}
     
-    func getPokemons() async throws -> ApiPokemonResponse? {
+    func getPokemons(completed: @escaping (Result<ApiPokemonResponse?, PLError>) -> Void){
         let endpoint = baseURL
-    
+        
         guard let url = URL(string: endpoint) else {
-            throw PLError.invalidRequest
+            completed(.failure(.invalidRequest))
+            return
         }
         
-        let (data, response) = try await URLSession.shared.data(from: url)
-    
-        guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-            throw PLError.invalidResponse
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+                        
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return 
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let pokemons = try decoder.decode(ApiPokemonResponse.self, from: data)
+                completed(.success(pokemons))
+                
+            } catch {
+                completed(.failure(.invalidData))
+            }
         }
-           
-        do {
-            return try decoder.decode(ApiPokemonResponse.self, from: data)
-        } catch {
-            throw PLError.invalidData
-        }
-    
+        
+        task.resume()
     }
     
-    func getPokemonByName(name: String) async throws -> PokemonDTO? {
+    func getPokemonByName(name: String, completed: @escaping (Result<PokemonCharacteristics?,PLError>) -> Void){
         let endpoint = "\(baseURL)/\(name)"
         
         guard let url = URL(string: endpoint) else {
-            throw PLError.invalidRequest
+            completed(.failure(.invalidRequest))
+            return 
         }
         
-        let (data, response) = try await URLSession.shared.data(from: url)
-    
-        guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
-            throw PLError.invalidResponse
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+            }
+            
+            guard let response = response  as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+                        
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let pokemon = try decoder.decode(PokemonDTO.self, from: data)
+                completed(.success(PokemonCharacteristics(from: pokemon)))
+            } catch {
+                completed(.failure(.invalidData))
+
+            }
         }
-           
-        do {
-            return try decoder.decode(PokemonDTO.self, from: data)
-        } catch {
-            throw PLError.invalidData
-        }
+        
+        task.resume()
     }
 }

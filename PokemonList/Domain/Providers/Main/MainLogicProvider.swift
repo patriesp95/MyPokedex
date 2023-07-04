@@ -24,37 +24,37 @@ class MainLogicProvider {
     weak var mainDelegate: MainLogicProviderDelegateProtocol?
     
     func fetchPokemons(){
-        Task {
-            do {
-                guard let pokemons = try await networkManager.getPokemons() else { return }
-                self.pokemons = pokemons.results
+        
+        networkManager.getPokemons { result in
+            
+            switch result {
+                case .success(let pokemons):
+                    self.pokemons = pokemons?.results
                 
-                if self.pokemons?.count ?? .zero > .zero {
-                    self.mainDelegate?.requestIsFinished()
-                }
-            } catch {
-                if let plError = error as? PLError {
-                    print(plError)
-                }
-            }
-        }
-    }
-    
-    func fetchPokemon(name: String){
-        Task {
-            do {
-                guard let pokemon = try await networkManager.getPokemonByName(name: name) else { return }
-                self.pokemon = PokemonCharacteristics(from: pokemon)
-                
-                if self.pokemon != nil {
-                    self.mainDelegate?.pokemonIsReady()
-                }
-            } catch {
-                if let plError = error as? PLError {
-                    print(plError)
-                }
+                    if self.pokemons?.count ?? .zero > .zero {
+                        self.mainDelegate?.requestIsFinished()
+                    }
+                case.failure(let error):
+                    print("an error ocurred:  \(error)")
             }
         }
         
+    }
+    
+    func fetchPokemon(name: String){
+        networkManager.getPokemonByName(name: name) { result in
+            
+            switch result {
+                case .success(let pokemon):
+                    self.pokemon = pokemon
+                
+                
+                    if self.pokemon != nil {
+                        self.mainDelegate?.pokemonIsReady()
+                    }
+                case.failure(let error):
+                    print("an error ocurred:  \(error)")
+            }
+        }
     }
 }
