@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Pokemon: Codable {
+struct Pokemon: Codable, Equatable {
     var name: String
     var url: String
 }

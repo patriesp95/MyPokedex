@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct PokemonCharacteristics {
+struct PokemonCharacteristics: Decodable, Equatable {
+    static func == (lhs: PokemonCharacteristics, rhs: PokemonCharacteristics) -> Bool {
+        return true
+    }
+    
     var name: String?
     var abilities: [PokemonAbility]?
     var types: [PokemonType]?

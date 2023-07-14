@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct ApiPokemonResponse: Decodable {
+struct ApiPokemonResponse: Decodable {    
     var count: Int
     var next: String
     var previous: String?

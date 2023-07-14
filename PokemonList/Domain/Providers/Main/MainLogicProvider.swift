@@ -34,7 +34,7 @@ class MainLogicProvider {
                     if self.pokemons?.count ?? .zero > .zero {
                         self.mainDelegate?.requestIsFinished()
                     }
-                case.failure(let error):
+                case .failure(let error):
                     print("an error ocurred:  \(error)")
             }
         }
@@ -47,8 +47,6 @@ class MainLogicProvider {
             switch result {
                 case .success(let pokemon):
                     self.pokemon = pokemon
-                
-                
                     if self.pokemon != nil {
                         self.mainDelegate?.pokemonIsReady()
                     }

@@ -76,8 +76,8 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let pokemon = try decoder.decode(PokemonDTO.self, from: data)
-                completed(.success(PokemonCharacteristics(from: pokemon)))
+                let pokemon = try decoder.decode(PokemonCharacteristics.self, from: data)
+                completed(.success(pokemon))
             } catch {
                 completed(.failure(.invalidData))
 
