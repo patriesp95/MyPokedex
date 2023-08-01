@@ -17,6 +17,12 @@ struct PokemonCharacteristics: Decodable, Equatable {
     var types: [PokemonType]?
     var sprites: PokemonSprite?
     
+    init(name: String, abilities: [PokemonAbility], types: [PokemonType]) {
+        self.name = name
+        self.abilities = abilities
+        self.types = types
+    }
+    
     init(from dto: PokemonDTO?) {
         name = dto?.name
         abilities = dto?.abilities

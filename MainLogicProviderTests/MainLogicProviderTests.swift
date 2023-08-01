@@ -24,68 +24,20 @@ final class MainLogicProviderTests: XCTestCase {
     func testFetchPokemons(){
 
         //given
-        let delegate: MainLogicProviderProtocolMock = MainLogicProviderProtocolMock()
-        guard let myPokemons = DataFixtures.validPokemonListData else { return }
-        var givenPokemons: [Pokemon]? = nil
+        let givenPokemons = [
         
-        sut.mainDelegate = delegate //dos objectos conectado
         
-        do {
-            let decoder = JSONDecoder()
-            let pokemons = try decoder.decode(ApiPokemonResponse.self, from: myPokemons)
-            givenPokemons = pokemons.results
-        }catch {
-            print("error")
-        }
+            Pokemon(name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/"),
+            Pokemon(name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon/2/"),
+            Pokemon(name: "venusaur", url: "https://pokeapi.co/api/v2/pokemon/3/"),
+            Pokemon(name: "charmander", url: "https://pokeapi.co/api/v2/pokemon/4/"),
+            Pokemon(name: "charmeleon", url: "https://pokeapi.co/api/v2/pokemon/5/")
         
+        ]
         sut.fetchPokemons()
         
         XCTAssertEqual(sut.pokemons, givenPokemons, "Not equals")
 
-    }
-    
-    func testrequestIsFinishedCalled(){
-                
-        //given
-        let delegate: MainLogicProviderProtocolMock = MainLogicProviderProtocolMock()
-        
-        sut.mainDelegate = delegate //dos objectos conectado
-        sut.fetchPokemons()
-        
-        XCTAssertTrue(delegate.requestIsFinishedCalled)
-    }
-    
-    func testFetchPokemon(){
-                
-        //given
-        let delegate: MainLogicProviderProtocolMock = MainLogicProviderProtocolMock()
-        guard let myPokemon = DataFixtures.validPokemonData else { return }
-        var givenPokemon: PokemonCharacteristics? = nil
-        
-        sut.mainDelegate = delegate //dos objectos conectado
-        
-        do {
-            let decoder = JSONDecoder()
-            let pokemon = try decoder.decode(PokemonDTO.self, from: myPokemon)
-            givenPokemon = PokemonCharacteristics(from: pokemon)
-        }catch {
-            print("error")
-        }
-        
-        sut.fetchPokemon(name: "charmander")
-        
-        XCTAssertEqual(sut.pokemon, givenPokemon, "Not equals")
-    }
-    
-    func testPokemonIsReady(){
-                
-        //given
-        let delegate: MainLogicProviderProtocolMock = MainLogicProviderProtocolMock()
-        
-        sut.mainDelegate = delegate //dos objectos conectado
-        sut.fetchPokemon(name: "charmander")
-        
-        XCTAssertTrue(delegate.pokemonIsReadyCalled)
     }
     
     

@@ -8,9 +8,9 @@
 import Foundation
 
 struct PokemonType: Decodable {
-    var type: Type
+    var type: PokeType
 }
-struct Type: Codable {
+struct PokeType: Codable {
     var name: String
     var url: String
 }
