@@ -15,9 +15,9 @@ protocol MainLogicProviderDelegateProtocol : AnyObject {
 class MainLogicProvider {
     var pokemons: [Pokemon]?
     var pokemon: PokemonCharacteristics?
-    let networkManager: FakeNetworkManager
+    let networkManager: NetworkManagerProtocol
     
-    init(networkManager: FakeNetworkManager){
+    init(networkManager: NetworkManagerProtocol){
         self.networkManager = networkManager
     }
     
