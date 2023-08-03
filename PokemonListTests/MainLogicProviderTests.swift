@@ -11,16 +11,26 @@ import XCTest
 final class MainLogicProviderTests: XCTestCase {
         
     var sut: MainLogicProvider!
+<<<<<<< HEAD
     private var mockNetworkManager: MockNetworkManager!
     
     
     override func setUpWithError() throws {
         mockNetworkManager = MockNetworkManager()
         sut = MainLogicProvider(networkManager: mockNetworkManager)
+=======
+    private var fakeNetworkManager: FakeNetworkManager!
+    
+    
+    override func setUpWithError() throws {
+        fakeNetworkManager = FakeNetworkManager()
+        sut = MainLogicProvider(networkManager: fakeNetworkManager)
+>>>>>>> 38e87d76456bfc626b4cdc56a6261208648edbdb
     }
     
     override func tearDownWithError() throws {
         sut = nil
+<<<<<<< HEAD
         mockNetworkManager = nil
         try super.tearDownWithError()
     }
@@ -54,6 +64,16 @@ final class MainLogicProviderTests: XCTestCase {
         
         let exp = expectation(description: "Loading pokemons")
         mockNetworkManager.expectation = exp
+=======
+        fakeNetworkManager = nil
+        try super.tearDownWithError()
+    }
+    
+    func testFetchPokemons(){
+        
+        let exp = expectation(description: "Loading pokemons")
+        fakeNetworkManager.expectation = exp
+>>>>>>> 38e87d76456bfc626b4cdc56a6261208648edbdb
         
         //when
         sut.fetchPokemons()
@@ -65,6 +85,7 @@ final class MainLogicProviderTests: XCTestCase {
         
     }
     
+<<<<<<< HEAD
     func testFetchPokemonByName(){
         
         let exp = expectation(description: "Loading pokemons")
@@ -79,6 +100,8 @@ final class MainLogicProviderTests: XCTestCase {
         XCTAssertEqual(sut.pokemon?.name, "charmander", "We should have loaded a pokemon whose name is charmander")
         
     }
+=======
+>>>>>>> 38e87d76456bfc626b4cdc56a6261208648edbdb
 }
 
 
@@ -97,7 +120,11 @@ private class MainLogicProviderProtocolMock: MainLogicProviderDelegateProtocol {
     
 }
 
+<<<<<<< HEAD
 private class MockNetworkManager: NetworkManagerProtocol {
+=======
+private class FakeNetworkManager: NetworkManagerProtocol {
+>>>>>>> 38e87d76456bfc626b4cdc56a6261208648edbdb
     
     var expectation: XCTestExpectation?
         
@@ -120,7 +147,10 @@ private class MockNetworkManager: NetworkManagerProtocol {
     
     func getPokemonByName(name: String, completed: @escaping (Result<PokemonCharacteristics?, PLError>) -> Void) {
         let myPokemon = PokemonCharacteristics(name: "charmander", abilities: [PokemonAbility(ability: Ability(name: "blaze", url: "https://pokeapi.co/api/v2/ability/66/"))], types: [PokemonType(type: PokeType(name: "fire", url: "https://pokeapi.co/api/v2/type/10/"))])
+<<<<<<< HEAD
         expectation?.fulfill()
+=======
+>>>>>>> 38e87d76456bfc626b4cdc56a6261208648edbdb
         completed(.success(myPokemon))
     }
             
